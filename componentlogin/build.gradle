@@ -1,0 +1,52 @@
+if(loginRunAlone.toBoolean()){
+    apply plugin: 'com.android.application'
+}else{
+    apply plugin: 'com.android.library'
+}
+
+android {
+    resourcePrefix 'login_'
+    compileSdkVersion compile_sdk_version.toInteger()
+    defaultConfig {
+        if(loginRunAlone.toBoolean()){
+            applicationId "hanlonglin.com.componentlogin"
+        }
+        minSdkVersion min_sdk_version.toInteger()
+        targetSdkVersion target_sdk_version.toInteger()
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets{
+        main{
+            if(loginRunAlone.toBoolean()){
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }else{
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //    implementation 'com.android.support:appcompat-v7:27.1.1'
+    //    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    api "com.android.support:appcompat-v7:$support_version"
+    //使用变量时使用双引号 变量前加$符号
+    api "com.android.support.constraint:constraint-layout:$constraint_layout"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':componentlib')
+}
